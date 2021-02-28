@@ -1,0 +1,9 @@
+ServerConfiguration:
+  #These set the values of all pre-defined messages. If you would like to disable use null. Use & for colour codes.
+  Predefined_Messages:
+    LOBBYCMDS_CONSOLE_ENABLED: "<PluginName> has been enabled!"
+    LOBBYCMDS_CONSOLE_DISABLED: null
+    LOBBY_PLAYER_PROCESSING: null
+    LOBBY_PLAYER_REQUEST_ACCEPTED: null
+    LOBBY_PLAYER_REQUEST_DENIED: null
+    LOBBY_CONSOLE_DENIED: null
