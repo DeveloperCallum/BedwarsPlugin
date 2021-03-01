@@ -51,8 +51,19 @@ public class Config {
                 Configuration configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(config);
 
                 for (Messages.COMMAND_MESSAGES value : Messages.COMMAND_MESSAGES.values()){
-                    String message = ChatColor.translateAlternateColorCodes('&', configuration.getString("ServerConfiguration.Predefined_Messages." + value.name()));
-                    Messages.setMessage(value, TextComponent.fromLegacyText(message)[0]);
+                    String name =  configuration.getString("ServerConfiguration.Predefined_Messages." + value.name() + ".Text");
+                    if (name.toLowerCase().equals("null") || name.isEmpty()) continue;
+                    String message = ChatColor.translateAlternateColorCodes('&',name);
+
+                    ChatColor colour = null;
+                    try{
+                        colour = ChatColor.valueOf(configuration.getString("ServerConfiguration.Predefined_Messages." + value.name() + ".Colour"));
+                    }catch (IllegalArgumentException ignored){
+                    }finally {
+                        TextComponent component = new TextComponent(message);
+                        if(colour != null) component.setColor(colour);
+                        Messages.setMessage(value, component);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
