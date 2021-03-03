@@ -10,6 +10,6 @@ public class PluginName extends Tag<Plugin> {
 
     @Override
     public String getValue(Plugin data) {
-        return data.getClass().getSimpleName();
+        return data.getDescription().getName();
     }
 }

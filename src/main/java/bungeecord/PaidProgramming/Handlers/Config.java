@@ -30,8 +30,7 @@ public class Config {
             } finally {
                 try {
                     InputStream in = new BufferedInputStream(plugin.getClass().getResourceAsStream("/Config.yml"));
-                    OutputStream out = null;
-                    out = new BufferedOutputStream(new FileOutputStream(config));
+                    OutputStream out = new BufferedOutputStream(new FileOutputStream(config));
 
                     byte[] buffer = new byte[1024];
                     int lengthRead;

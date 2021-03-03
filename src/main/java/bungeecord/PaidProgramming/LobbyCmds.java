@@ -6,9 +6,7 @@ import bungeecord.PaidProgramming.Handlers.Messages;
 import bungeecord.PaidProgramming.Handlers.Tags.PreDefined.PluginName;
 import bungeecord.PaidProgramming.Handlers.Tags.TagHandler;
 import bungeecord.PaidProgramming.Utils.Logger;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public final class LobbyCmds extends Plugin {
