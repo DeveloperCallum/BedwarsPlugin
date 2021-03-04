@@ -4,7 +4,6 @@ import bungeecord.PaidProgramming.Commands.Lobby;
 import bungeecord.PaidProgramming.Handlers.Config;
 import bungeecord.PaidProgramming.Handlers.Messages;
 import bungeecord.PaidProgramming.Handlers.Tags.PreDefined.PluginName;
-import bungeecord.PaidProgramming.Handlers.Tags.TagHandler;
 import bungeecord.PaidProgramming.Utils.Logger;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -12,9 +11,8 @@ import net.md_5.bungee.api.plugin.Plugin;
 public final class LobbyCmds extends Plugin {
     private Config config;
     public LobbyCmds() {
-        TagHandler tagHandler = new TagHandler();
-        tagHandler.addTag(new PluginName("PluginName"));
-        Messages.setTagHandler(tagHandler);
+        config = new Config(this);
+        config.addTag(new PluginName("PluginName"));
     }
 
     @Override
@@ -24,12 +22,12 @@ public final class LobbyCmds extends Plugin {
 
     @Override
     public void onEnable() {
-        Logger.message(Messages.formatted(Messages.COMMAND_MESSAGES.LOBBYCMDS_CONSOLE_ENABLED, this));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new Lobby("lobby", "LobbyCmds.lobby", "hub"));
+        Logger.message(config.getMessages().formatted(Messages.DEFAULT_COMMAND_MESSAGES.LOBBY_CONSOLE_ENABLED, this));
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new Lobby("lobby", "LobbyCmds.lobby", config,"hub"));
     }
 
     @Override
     public void onDisable() {
-        Logger.message(Messages.getMessage(Messages.COMMAND_MESSAGES.LOBBYCMDS_CONSOLE_DISABLED));
+        Logger.message(config.getMessages().formatted(Messages.DEFAULT_COMMAND_MESSAGES.LOBBY_CONSOLE_DENIED, this));
     }
 }

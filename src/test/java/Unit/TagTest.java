@@ -1,9 +1,9 @@
 package Unit;
 
 import Unit.MockClasses.ProxyServerMock;
+import bungeecord.PaidProgramming.Handlers.Config;
 import bungeecord.PaidProgramming.Handlers.Messages;
 import bungeecord.PaidProgramming.Handlers.Tags.PreDefined.PluginName;
-import bungeecord.PaidProgramming.Handlers.Tags.TagHandler;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -12,10 +12,10 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 
 
-public class FileTest {
+public class TagTest {
 
     @Test
-    public void TagTest() {
+    public void test() {
         // Create plugin instance
         Plugin plugin = new Plugin();
 
@@ -28,14 +28,11 @@ public class FileTest {
         setValue("description", plugin, description);
 
         //setup tagHandler TODO: Change the way Config, Messages, and tagHandler work.
-        TagHandler tagHandler = new TagHandler();
-        tagHandler.addTag(new PluginName("pluginname"));
-        Messages.setTagHandler(tagHandler);
 
-        //set the value of LOBBYCMDS_CONSOLE_ENABLED, so we can test against it!
-        Messages.setMessage(Messages.COMMAND_MESSAGES.LOBBYCMDS_CONSOLE_ENABLED, new TextComponent("<PluginName> has been enabled!"));
+        Config config = new Config(plugin);
+        config.addTag(new PluginName("PluginName"));
 
-        assert Messages.formatted(Messages.COMMAND_MESSAGES.LOBBYCMDS_CONSOLE_ENABLED, plugin).toLowerCase().equals((plugin.getDescription().getName() + " has been enabled!").toLowerCase());
+        assert config.getMessages().formatted(Messages.DEFAULT_COMMAND_MESSAGES.LOBBY_CONSOLE_ENABLED, plugin).toLowerCase().equals((plugin.getDescription().getName() + " has been enabled!").toLowerCase());
     }
 
     public static void setValue(String field, Object instance, Object value) {
