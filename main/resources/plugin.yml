@@ -1,0 +1,4 @@
+name: Lobby
+version: ${project.version}
+main: lobbyplugin.lobby.Lobby
+load: STARTUP
