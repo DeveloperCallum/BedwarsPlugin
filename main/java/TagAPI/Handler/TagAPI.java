@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 
-public class Message {
+public class TagAPI {
     private final HashMap<String, String> messageData = new HashMap<>();
     private final TagHandler tagHandler = new TagHandler();
 
@@ -47,7 +47,7 @@ public class Message {
                             formattedString += currentChar;
                             continue;
                         }
-                    } else throw new RuntimeException("Message for type " + key + " is incomplete");
+                    } else throw new RuntimeException("TagAPI for type " + key + " is incomplete");
 
                 case '>': //Closing tag char.
                     isFormatting = false; //No longer formatting.

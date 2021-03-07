@@ -3,7 +3,7 @@ package Unit;
 import TagAPI.DefualtTags.DateTag;
 import TagAPI.Exceptions.TagNotFoundException;
 import TagAPI.Exceptions.TagNotSupported;
-import TagAPI.Handler.Message;
+import TagAPI.Handler.TagAPI;
 import TagAPI.Handler.Tag.TagData;
 import Unit.MockClasses.MockTags.NameTag;
 import org.junit.Test;
@@ -14,10 +14,10 @@ import static org.junit.Assert.fail;
 
 public class TagTest {
     private final Date date = new Date();
-    private final Message messages;
+    private final TagAPI messages;
 
     public TagTest() {
-        this.messages = new Message();
+        this.messages = new TagAPI();
         messages.getTagHandler().addTag(new DateTag("DateTag"));
         messages.addMessage("TestParse", "<DateTag> is current date!");
     }
