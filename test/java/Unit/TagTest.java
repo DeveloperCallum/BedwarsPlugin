@@ -14,18 +14,17 @@ import static org.junit.Assert.fail;
 
 public class TagTest {
     private final Date date = new Date();
-    private final TagAPI messages;
+    private final TagAPI tagAPI = new TagAPI();
 
     public TagTest() {
-        this.messages = new TagAPI();
-        messages.getTagHandler().addTag(new DateTag("DateTag"));
-        messages.addMessage("TestParse", "<DateTag> is current date!");
+        tagAPI.getTagHandler().addTag(new DateTag("DateTag"));
+        tagAPI.addMessage("TestParse", "<DateTag> is current date!");
     }
 
     @Test
     public void TagNotFound() {
         try {
-            messages.formatMessage("test", this);
+            tagAPI.formatMessage("test", this);
         } catch (TagNotFoundException ignored) {
         } catch (Exception e) {
             fail("Should have thrown " + TagNotFoundException.class);
@@ -35,7 +34,8 @@ public class TagTest {
     @Test
     public void MatchResults() {
         String expected = (date.toString() + " is current date!"); //this is what i expect
-        String actual = messages.formatMessage("TestParse", this); // this is what was returned
+        String actual = tagAPI.formatMessage("TestParse", this); // this is what was returned
+        System.out.println(expected);
         if (!actual.toLowerCase().equals(expected.toLowerCase())) {
             fail("Expected & Actual results to not match. \nExpected: " + expected + " \nActual: " + actual);
         }
@@ -44,7 +44,7 @@ public class TagTest {
     @Test
     public void MatchResultsCaseTest() {
         String expected = (date.toString() + " is current date!");
-        String actual = messages.formatMessage("TeStPaRsE", this);
+        String actual = tagAPI.formatMessage("TeStPaRsE", this);
         if (!actual.toLowerCase().equals(expected.toLowerCase())) {
             fail("Expected & Actual results to not match. \nExpected: " + expected + " \nActual: " + actual);
         }
@@ -53,8 +53,8 @@ public class TagTest {
     @Test
     public void TagEscaped() {
         String raw = "</datetag> this is the date";
-        messages.addMessage("escaped", raw);
-        String actual = messages.formatMessage("escaped", this).toLowerCase();
+        tagAPI.addMessage("escaped", raw);
+        String actual = tagAPI.formatMessage("escaped", this).toLowerCase();
         String expected = raw.toLowerCase().replaceAll("/", "").toLowerCase();
 
         assert  actual.equals(expected);
@@ -63,7 +63,7 @@ public class TagTest {
     @Test
     public void NoSupport() {
         try {
-            messages.formatMessage("TestParse", new Object());
+            tagAPI.formatMessage("TestParse", new Object());
         } catch (TagNotSupported ignored) {
         } catch (Exception e) {
             fail("Should have thrown " + TagNotSupported.class + "\nThrown: " + e.getClass());
@@ -73,9 +73,9 @@ public class TagTest {
     @Test
     public void TagNotRegisteredException() {
         try {
-            messages.addMessage("TestParse1", "<DateTag> is current date! <NameTag>");
+            tagAPI.addMessage("TestParse1", "<DateTag> is current date! <NameTag>");
             //messages.getTagHandler().addTag(new NameTag("NameTag"));
-            System.out.println(messages.formatMessage("TestParse1", this));
+            System.out.println(tagAPI.formatMessage("TestParse1", this));
         } catch (TagNotFoundException e) {
         } catch (Exception e) {
             fail("Tag should have thrown " + TagNotFoundException.class);
@@ -86,11 +86,11 @@ public class TagTest {
     @Test
     public void MultiTagSupport() {
         String raw = "<DateTag> is current date! <NameTag>";
-        messages.addMessage("TestParse1", raw);
-        messages.getTagHandler().addTag(new NameTag("NameTag"));
+        tagAPI.addMessage("TestParse1", raw);
+        tagAPI.getTagHandler().addTag(new NameTag("NameTag"));
 
         String expected = (raw.toLowerCase().replaceAll("<datetag>", getDateTag().toString()).replaceAll("<nametag>", getNameTag())).toLowerCase();
-        String actual = messages.formatMessage("TestParse1", this).toLowerCase();
+        String actual = tagAPI.formatMessage("TestParse1", this).toLowerCase();
 
         assert  expected.equals(actual);
 
