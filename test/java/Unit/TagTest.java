@@ -5,6 +5,7 @@ import TagAPI.Exceptions.TagNotFoundException;
 import TagAPI.Exceptions.TagNotSupported;
 import TagAPI.Handler.TagAPI;
 import TagAPI.Handler.Tag.TagData;
+import Unit.MockClasses.MockTags.FinalTestTag;
 import Unit.MockClasses.MockTags.NameTag;
 import org.junit.Test;
 
@@ -94,6 +95,17 @@ public class TagTest {
 
         assert  expected.equals(actual);
 
+    }
+
+    @Test
+    public void FinalTagData() {
+        String raw = "<NameTag>, This is my name!";
+        tagAPI.addMessage("NameTest", raw);
+
+        tagAPI.getTagHandler().addTag(new FinalTestTag("NameTag", "Callum"));
+
+        String actual = tagAPI.formatMessage("NameTest").toLowerCase();
+        assert "callum, this is my name!".equals(actual);
     }
 
     @TagData

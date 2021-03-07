@@ -1,17 +1,18 @@
 package TagAPI.Handler.Tag;
 
-public abstract class Tag<t> {
+public abstract class Tag<Type> {
     protected final String key;
+    protected final boolean isFinal;
     public String getKey() {
         return key;
     }
+    public boolean isFinal() { return isFinal; }
 
-    public Tag(String key) {
+    protected Tag(String key, boolean isFinalTag) {
         if (key.trim().isEmpty()) throw new IllegalArgumentException("Key cannot be empty!");
         this.key = key.toLowerCase().trim();
+        this.isFinal = isFinalTag;
     }
-
-    public abstract String getValue(t data);
 }
 
 /*Problem:
@@ -19,8 +20,8 @@ public abstract class Tag<t> {
  *
  * The tag handler needs to know the output of other tags, so if <tag1> bla bla changes to <tag2> bla bla it can handle it, without relying on the data being given to it through arguments.
  *
- * Static Tags: These tags calculate once, after data is saved so it can be moved
- * Instance Tags: Requires data to be able to calculate.
+ * Static Tags: Same as Instance except one value has been set it cannot be changed.
+ * Instance Tags: &Instance object has the data, with the methods marked with @TagData
  *
  * Tags cant be used everywhere, limit what tags can be used where.
  *
